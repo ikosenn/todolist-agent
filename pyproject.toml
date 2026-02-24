@@ -1,0 +1,31 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "todolist-agent"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "langchain>=1.2.10",
+    "langchain-core>=1.2.14",
+    "langchain-openai>=1.1.10",
+    "langgraph>=1.0.9",
+    "langgraph-checkpoint-postgres>=3.0.4",
+    "psycopg>=3.3.3",
+    "python-dotenv>=1.2.1",
+    "trustcall>=0.0.39",
+]
+
+[project.scripts]
+init-db = "todolist_agent.setup_db:main"
+
+[tool.uv]
+package = true
+
+[dependency-groups]
+dev = [
+    "ruff>=0.15.2",
+]

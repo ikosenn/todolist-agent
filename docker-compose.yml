@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: todolist_agent_postgres
+    environment:
+      POSTGRES_USER: todolist_agent
+      POSTGRES_PASSWORD: todolist_agent
+      POSTGRES_DB: todolist_agent
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
