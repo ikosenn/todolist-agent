@@ -1,13 +1,17 @@
 import uuid
+from typing import TYPE_CHECKING
 from datetime import datetime
 from langchain.chat_models import init_chat_model
 from trustcall import create_extractor
-from application import Application
 from schemas import TodoAgentState, TodoAgentContext, UpdateMemory, Profile, ToDo
 from todolist_agent.utils import Spy, extract_tool_info
-from langgraph.prebuilt import RunnableConfig, Runtime
+from langgraph.types import RunnableConfig
+from langgraph.runtime import Runtime
 from langchain_core.messages import SystemMessage, merge_message_runs, HumanMessage
 from langgraph.graph import StateGraph, START, END
+
+if TYPE_CHECKING:
+    from application import Application
 
 
 AGENT_SYSTEM_MSG = """You are a helpful chatbot.
@@ -75,7 +79,7 @@ Your current instructions are (may be empty if no instructions have been added y
 
 
 class TodoAgent:
-    def __init__(self, app: Application, model_name: str):
+    def __init__(self, app: "Application", model_name: str):
         self.app = app
         self.model = init_chat_model(model_name)
         self.profile_extractor = create_extractor(
@@ -296,3 +300,4 @@ class TodoAgent:
             return builder.compile(
                 checkpointer=self.app.checkpointer_db, store=self.app.store_db
             )
+        return build_todo_agent_graph()

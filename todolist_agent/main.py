@@ -1,8 +1,17 @@
-USER_ID = "0e7501c5-a99b-4592-87d6-e809537d680a"
+import asyncio
+import os
+import logging
+from dotenv import load_dotenv
+from application import Application
+
+load_dotenv()
 
 
 def main():
-    print("Hello from todolist-agent!")
+    store_uri = os.environ.get("POSTGRES_URL")
+    checkpointer_uri = os.environ.get("POSTGRES_URL")
+    app = Application(store_uri, checkpointer_uri, 'gpt-5-nano')
+    asyncio.run(app.start())
 
 
 if __name__ == "__main__":
